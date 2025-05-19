@@ -1,0 +1,4 @@
+/* コンテンツ全体の最大幅を拡張 */
+.wy-nav-content {
+  max-width: none !important;
+}

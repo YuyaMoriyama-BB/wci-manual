@@ -1,0 +1,591 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IPv6でWebサーバを公開する &mdash; WCI設定事例集  ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=1a210187" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=c033477b"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=4755f45a"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="prev" title="IPv6を使用する" href="../ipv6.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WCI設定事例集
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">はじめに</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../standard.html">基本設定</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../ipv6.html">IPv6を使用する</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">IPv6でWebサーバを公開する</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">構成概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">接続構成とネットワーク</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">セキュリティアプライアンスについて</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wci">WCIポータルの設定</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">サブネットの登録</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">接続</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">フィルタ管理</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">セキュリティアプライアンスの設定例</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ipv6">IPv6機能の表示設定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">アドレス設定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wan">WAN設定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lan-a">LAN設定(拠点ネットワークA)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a">ポリシー設定(拠点ネットワークA)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lan-b">LAN設定(拠点ネットワークB)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#b">ポリシー設定(拠点ネットワークB)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WCI設定事例集</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../ipv6.html">IPv6を使用する</a></li>
+      <li class="breadcrumb-item active">IPv6でWebサーバを公開する</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/ipv6/webserver_dual.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ipv6web">
+<h1>IPv6でWebサーバを公開する<a class="headerlink" href="#ipv6web" title="Link to this heading"></a></h1>
+<p>本事例では、WCIルータとファイアウォール/ルータ等のセキュリティアプライアンスを接続し、IPv6およびIPv4のデュアルスタック環境における運用構成について説明します。</p>
+<section id="id1">
+<h2>構成概要<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line">WCIルータは、DHCPv6-PD（Prefix Delegation）方式により、セキュリティアプライアンスへIPv6プレフィックス（::/56）を割り当てます。</div>
+<div class="line">これにより、セキュリティアプライアンス側では、委任されたIPv6プレフィックスを複数のサブネット（::/64）に分割し、各ネットワークセグメントに対してアドレスプレフィックスおよびDNSサーバアドレスをSLAAC方式により動的配布します。</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">注釈</p>
+<p>IPv4に関する設定内容については、&quot; <a class="reference internal" href="../standard/webserver.html"><span class="doc">Webサーバを公開する(NAT,NAPT)</span></a> &quot;に記載された構成に準拠します。</p>
+</div>
+</section>
+<section id="id2">
+<h2>接続構成とネットワーク<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p><strong>接続構成図</strong></p>
+<a class="reference internal image-reference" href="../_images/webserver_dual.png"><img alt="../_images/webserver_dual.png" src="../_images/webserver_dual.png" style="width: 1235.3999999999999px; height: 368.09999999999997px;" />
+</a>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<ul class="simple">
+<li><p>※1,2 導入機種により接続ポートが異なります。詳しくは&quot; <a class="reference internal" href="../preface/init.html"><span class="doc">WCIルータについて</span></a> &quot;の導入機種に応じたポート対応表をご確認下さい。</p></li>
+</ul>
+</div>
+<hr class="docutils" />
+<ul class="simple">
+<li><p><strong>拠点ネットワークA</strong></p></li>
+</ul>
+<div class="line-block">
+<div class="line">　本事例ではこのネットワークのみを外部に公開対象とし、Webサービスやアプリケーションの提供を行います。</div>
+<div class="line">　IPv6の設定は、セキュリティアプライアンスがWCIルータから受け取ったプレフィックスの一部を利用し、</div>
+<div class="line">　SLAACによりホストに対してIPアドレスとDNS情報を配布します。</div>
+</div>
+<ul class="simple">
+<li><p><strong>拠点ネットワークB</strong></p></li>
+</ul>
+<div class="line-block">
+<div class="line">　外部公開は行わず、WCI Portalや他拠点サービスへのアクセス用途に限定します。</div>
+<div class="line">　こちらも同様にIPv6アドレスはプレフィックス委任をもとにSLAACにより割り当てられます。</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="id3">
+<h2>セキュリティアプライアンスについて<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>セキュリティアプライアンス（ファイアウォールやルータ）は以下の機能を実装する必要があります：</p>
+<ul class="simple">
+<li><p><strong>DHCPv6-PDクライアント機能</strong> （IA_PD対応）</p></li>
+</ul>
+<div class="line-block">
+<div class="line">　WCIルータから <cite>::/56</cite> のプレフィックスを受け取ります。</div>
+</div>
+<ul class="simple">
+<li><p><strong>RA（Router Advertisement）とSLAACの送信機能</strong></p></li>
+</ul>
+<div class="line-block">
+<div class="line">　各内部インタフェースで <cite>::/64</cite> に分割されたサブネットをRAにより広告し、ホストに対してIPv6アドレスとDNS情報を配布します。</div>
+</div>
+<div class="line-block">
+<div class="line">具体的なメーカ・機種の利用可否については、別途お問い合わせ下さい。</div>
+<div class="line">本事例では、Fortinet社のFortiGate(FortiOS7.4以降)を一例として設定方法を紹介します。</div>
+</div>
+</section>
+<section id="wci">
+<h2>WCIポータルの設定<a class="headerlink" href="#wci" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://portal.bbwci.net">WCI Portal</a> (<cite>https://portal.bbwci.net</cite>)にアクセスしログインします。</div>
+<div class="line">必要に応じて、WCIルータのLANポートに設定用端末を接続してアクセスして下さい。</div>
+</div>
+<section id="id4">
+<h3>サブネットの登録<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<a class="reference internal image-reference" href="../_images/1.png"><img alt="../_images/1.png" src="../_images/1.png" style="width: 692.3px; height: 581.0px;" />
+</a>
+<p><strong>[サブネット管理]</strong> より、IPv6アドレス欄の <strong>[登録]</strong> ボタンを押下します。</p>
+<hr class="docutils" />
+<a class="reference internal image-reference" href="../_images/2.png"><img alt="../_images/2.png" src="../_images/2.png" style="width: 423.59999999999997px; height: 541.8px;" />
+</a>
+<ul class="simple">
+<li><p><strong>[サブネット名]</strong> に名称を設定します。 <code class="docutils literal notranslate"><span class="pre">sample_dual_subnet</span></code></p></li>
+<li><p><strong>[プレフィックス]</strong> を指定します。<code class="docutils literal notranslate"><span class="pre">/64</span></code> を設定します。</p></li>
+<li><p><strong>[ネットワークアドレス]</strong> を指定します。<code class="docutils literal notranslate"><span class="pre">fdad:6bb6:54bc:201</span></code> を設定します。</p></li>
+<li><p><strong>[登録]</strong> ボタンを押下します。</p></li>
+</ul>
+<hr class="docutils" />
+<a class="reference internal image-reference" href="../_images/3.png"><img alt="../_images/3.png" src="../_images/3.png" style="width: 756.0px; height: 273.7px;" />
+</a>
+<p>画面に先ほど設定したサブネットが登録されている事を確認します。
+このサブネットが拠点ネットワークAのアドレス帯となります。</p>
+</section>
+<hr class="docutils" />
+<section id="id5">
+<h3>接続<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>他拠点との接続については別紙 <cite>WCI Portal 利用手順書</cite> をご確認ください。</p>
+</section>
+<hr class="docutils" />
+<section id="id6">
+<h3>フィルタ管理<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<a class="reference internal image-reference" href="../_images/4.png"><img alt="../_images/4.png" src="../_images/4.png" style="width: 842.4px; height: 512.4px;" />
+</a>
+<p>画面の <strong>[新規]</strong> ボタンを押下します。</p>
+<hr class="docutils" />
+<a class="reference internal image-reference" href="../_images/5.png"><img alt="../_images/5.png" src="../_images/5.png" style="width: 822.6px; height: 353.4px;" />
+</a>
+<p>フィルタ登録画面にて、<strong>[サブネットID]</strong> を押下します。</p>
+<a class="reference internal image-reference" href="../_images/6.png"><img alt="../_images/6.png" src="../_images/6.png" style="width: 721.8px; height: 507.29999999999995px;" />
+</a>
+<p>サブネット選択画面にて先ほど登録した <strong>サブネット</strong>  <code class="docutils literal notranslate"><span class="pre">fdad:6bb6:54bc:201</span></code> の行の <strong>[選択]</strong> を押下します。</p>
+<hr class="docutils" />
+<a class="reference internal image-reference" href="../_images/7.png"><img alt="../_images/7.png" src="../_images/7.png" style="width: 693.0px; height: 632.8px;" />
+</a>
+<p>フィルタ登録画面にて、サブネットが選択されたことを確認します。</p>
+<hr class="docutils" />
+<ul class="simple">
+<li><p>続いて、フィルタリング (インバウンド)にて <strong>[追加]</strong> ボタンを押下します。</p></li>
+<li><p><strong>[プロトコル]</strong> : <code class="docutils literal notranslate"><span class="pre">TCP</span></code> , <strong>[ポート]</strong> : <code class="docutils literal notranslate"><span class="pre">443</span></code> と設定します。</p></li>
+<li><p><strong>[登録]</strong> ボタンを押下します。</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id7">
+<h2>セキュリティアプライアンスの設定例<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line">委任されたIPv6プレフィックスを複数のサブネット（::/64）に分割し、各ネットワークセグメントに対してアドレスプレフィックス</div>
+<div class="line">およびDNSサーバアドレスをSLAAC方式により動的配布する設定を行います。</div>
+</div>
+<p><strong>物理インターフェース構成</strong></p>
+<a class="reference internal image-reference" href="../_images/fw.png"><img alt="../_images/fw.png" src="../_images/fw.png" style="width: 576.9px; height: 173.7px;" />
+</a>
+<hr class="docutils" />
+<section id="ipv6">
+<h3>IPv6機能の表示設定<a class="headerlink" href="#ipv6" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line">FortiGateのGUIダッシュボード画面より <strong>[システム]</strong> → <strong>[表示機能設定]</strong> から <strong>[IPv6]</strong> を有効化します。</div>
+</div>
+<a class="reference internal image-reference" href="../_images/8.png"><img alt="../_images/8.png" src="../_images/8.png" style="width: 456.8px; height: 496.0px;" />
+</a>
+</section>
+<hr class="docutils" />
+<section id="id8">
+<h3>アドレス設定<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<p>WCIアドレス(IPv6)の拠点配布範囲は以下の様に定義されています。</p>
+<ul class="simple">
+<li><p>fda0::/12</p></li>
+</ul>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<div class="line-block">
+<div class="line">WCIポータルを始めとするサービスのアドレスはこの範囲に限りませんのでご注意ください。</div>
+<div class="line">他拠点に公開する構成のため、この範囲をWCIアドレスとして設定を行います。</div>
+</div>
+</div>
+<p><strong>[アドレス]</strong> → <strong>[IPv6 Address]</strong> → <strong>[新規作成]</strong> からアドレスを以下の様に編集します。</p>
+<a class="reference internal image-reference" href="../_images/a1.png"><img alt="../_images/a1.png" src="../_images/a1.png" style="width: 433.29999999999995px; height: 186.89999999999998px;" />
+</a>
+<hr class="docutils" />
+<a class="reference internal image-reference" href="../_images/a2.png"><img alt="../_images/a2.png" src="../_images/a2.png" style="width: 479.49999999999994px; height: 231.7px;" />
+</a>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>名称</strong></p>
+</div></blockquote>
+</td>
+<td><p>WCI</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p><strong>IPv6アドレス</strong></p>
+</div></blockquote>
+</td>
+<td><p>fda0::/12</p></td>
+</tr>
+</tbody>
+</table>
+<p>拠点ネットワークAを設定します。</p>
+<a class="reference internal image-reference" href="../_images/a3.png"><img alt="../_images/a3.png" src="../_images/a3.png" style="width: 490.7px; height: 204.39999999999998px;" />
+</a>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>名称</strong></p>
+</div></blockquote>
+</td>
+<td><p>NetworkA</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p><strong>IPv6アドレス</strong></p>
+</div></blockquote>
+</td>
+<td><p>fdad:6bb6:54bc:201:X:X:X:X/64</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<ul class="simple">
+<li><p>X:X:X:Xの部分は <strong>Webサーバ</strong> のEUI-64で自動生成されたIPv6を設定します。固定アドレスを設定する事も可能です。</p></li>
+</ul>
+</div>
+<p>設定した <strong>アドレス群</strong> は後述のポリシー設定の際に使用します。</p>
+</section>
+<hr class="docutils" />
+<section id="wan">
+<h3>WAN設定<a class="headerlink" href="#wan" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line"><strong>[インタフェース]</strong> から任意のインターフェースを選択して編集を行います。</div>
+<div class="line">本事例では物理インターフェース <code class="docutils literal notranslate"><span class="pre">wan1</span></code> にWCIルータを接続する構成とするため、 <code class="docutils literal notranslate"><span class="pre">wan1</span></code> を選択します。</div>
+</div>
+<a class="reference internal image-reference" href="../_images/9.png"><img alt="../_images/9.png" src="../_images/9.png" style="width: 678.3px; height: 459.2px;" />
+</a>
+<ul class="simple">
+<li><p><strong>IPv6アドレスの自動設定</strong> を有効化します。</p></li>
+<li><p><strong>DHCPv6 プレフィックス委任</strong> を有効化します。</p></li>
+</ul>
+<p>-「+」ボタンを押して IAPD プレフィックスヒントのフィールドを表示します。</p>
+<ul class="simple">
+<li><p>以下の値を入力します： ※不要な項目は <cite>x</cite> ボタンで削除できます。</p></li>
+</ul>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>ID</strong></p>
+</div></blockquote>
+</td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p><strong>プレフィックス</strong></p>
+</div></blockquote>
+</td>
+<td><p>::/56</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="lan-a">
+<h3>LAN設定(拠点ネットワークA)<a class="headerlink" href="#lan-a" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line"><strong>[インタフェース]</strong> から任意のインターフェースを選択して編集を行います。</div>
+<div class="line">本事例では物理インターフェース <code class="docutils literal notranslate"><span class="pre">internal1</span></code> 配下に拠点ネットワークAを構成するため、 <code class="docutils literal notranslate"><span class="pre">internal1</span></code> を選択します。</div>
+</div>
+<a class="reference internal image-reference" href="../_images/10.png"><img alt="../_images/10.png" src="../_images/10.png" style="width: 753.1999999999999px; height: 410.2px;" />
+</a>
+<ul class="simple">
+<li><p>以下の様に設定します。</p></li>
+</ul>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>IPv6 アドレッシングモード</strong></p>
+</div></blockquote>
+</td>
+<td><p>委任済</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p><strong>アイデンティティアソシエーション識別子</strong></p>
+</div></blockquote>
+</td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>IPv6 アップストリームインタフェース</strong></p>
+</div></blockquote>
+</td>
+<td><p>wan1</p></td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<p>続いて、CLI設定よりRA（ルータ広告）を有効にし、SLAAC によってアドレスや DNS 情報を端末に配布する設定を行います。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>config<span class="w"> </span>system<span class="w"> </span>interface
+<span class="w">    </span>edit<span class="w"> </span><span class="s2">&quot;internal1&quot;</span>
+<span class="w">        </span>config<span class="w"> </span>ipv6
+<span class="w">            </span><span class="nb">set</span><span class="w"> </span>ip6-mode<span class="w"> </span>delegated
+<span class="w">            </span><span class="nb">set</span><span class="w"> </span>ip6-send-adv<span class="w"> </span><span class="nb">enable</span>
+<span class="w">            </span><span class="nb">set</span><span class="w"> </span>ip6-delegated-prefix-iaid<span class="w"> </span><span class="m">1</span>
+<span class="w">            </span><span class="nb">set</span><span class="w"> </span>ip6-upstream-interface<span class="w"> </span><span class="s2">&quot;wan1&quot;</span>
+<span class="w">            </span>config<span class="w"> </span>ip6-delegated-prefix-list
+<span class="w">                </span>edit<span class="w"> </span><span class="m">1</span>
+<span class="w">                    </span><span class="nb">set</span><span class="w"> </span>upstream-interface<span class="w"> </span><span class="s2">&quot;wan1&quot;</span>
+<span class="w">                    </span><span class="nb">set</span><span class="w"> </span>delegated-prefix-iaid<span class="w"> </span><span class="m">1</span>
+<span class="w">                    </span><span class="nb">set</span><span class="w"> </span>subnet<span class="w"> </span><span class="m">0</span>:0:0:1::/64
+<span class="w">                    </span><span class="nb">set</span><span class="w"> </span>rdnss-service<span class="w"> </span>delegated
+<span class="w">                </span>next
+<span class="w">            </span>end
+<span class="w">        </span>end
+<span class="w">    </span>next
+end
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">この設定により、<cite>wan1</cite> から委任された ::/56 のうち、0:0:0:1::/64 を <cite>internal1</cite> で広告し、</div>
+<div class="line">クライアントは SLAAC によってアドレスと DNS サーバアドレスを取得できるようになります。</div>
+</div>
+</section>
+<section id="a">
+<h3>ポリシー設定(拠点ネットワークA)<a class="headerlink" href="#a" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line"><strong>[ファイアウォールポリシー]</strong> → <strong>[新規作成]</strong> から以下の様にポリシーを作成します。</div>
+</div>
+<a class="reference internal image-reference" href="../_images/11.png"><img alt="../_images/11.png" src="../_images/11.png" style="width: 630.4000000000001px; height: 723.2px;" />
+</a>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>着信インターフェース</strong></p>
+</div></blockquote>
+</td>
+<td><p>wan1</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p><strong>発信インターフェース</strong></p>
+</div></blockquote>
+</td>
+<td><p>internal1</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>送信元</strong></p>
+</div></blockquote>
+</td>
+<td><p>WCI(アドレス設定で作成したもの)</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p><strong>宛先</strong></p>
+</div></blockquote>
+</td>
+<td><p>NetworkA(アドレス設定で作成した物)</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>サービス</strong></p>
+</div></blockquote>
+</td>
+<td><p>HTTPS</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>セキュリティプロファイルを設定します(省略)</p></li>
+</ul>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line">これで、接続している他拠点に対して、Webサーバを公開する設定が完了しました。</div>
+<div class="line">続いて、拠点ネットワークBの設定を行います。</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="lan-b">
+<h3>LAN設定(拠点ネットワークB)<a class="headerlink" href="#lan-b" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line"><strong>[インタフェース]</strong> から任意のインターフェースを選択して編集を行います。</div>
+<div class="line">本事例では物理インターフェース <code class="docutils literal notranslate"><span class="pre">internal2</span></code> 配下に拠点ネットワークAを構成するため、 <code class="docutils literal notranslate"><span class="pre">internal2</span></code> を選択します。</div>
+</div>
+<a class="reference internal image-reference" href="../_images/12.png"><img alt="../_images/12.png" src="../_images/12.png" style="width: 753.1999999999999px; height: 410.9px;" />
+</a>
+<ul class="simple">
+<li><p>以下の様に設定します。</p></li>
+</ul>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>IPv6 アドレッシングモード</strong></p>
+</div></blockquote>
+</td>
+<td><p>委任済</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p><strong>アイデンティティアソシエーション識別子</strong></p>
+</div></blockquote>
+</td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>IPv6 アップストリームインタフェース</strong></p>
+</div></blockquote>
+</td>
+<td><p>wan1</p></td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<p>続いて、CLI設定よりRA（ルータ広告）を有効にし、SLAAC によってアドレスや DNS 情報を端末に配布する設定を行います。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>config<span class="w"> </span>system<span class="w"> </span>interface
+<span class="w">    </span>edit<span class="w"> </span><span class="s2">&quot;internal2&quot;</span>
+<span class="w">        </span>config<span class="w"> </span>ipv6
+<span class="w">            </span><span class="nb">set</span><span class="w"> </span>ip6-mode<span class="w"> </span>delegated
+<span class="w">            </span><span class="nb">set</span><span class="w"> </span>ip6-send-adv<span class="w"> </span><span class="nb">enable</span>
+<span class="w">            </span><span class="nb">set</span><span class="w"> </span>ip6-delegated-prefix-iaid<span class="w"> </span><span class="m">1</span>
+<span class="w">            </span><span class="nb">set</span><span class="w"> </span>ip6-upstream-interface<span class="w"> </span><span class="s2">&quot;wan1&quot;</span>
+<span class="w">            </span>config<span class="w"> </span>ip6-delegated-prefix-list
+<span class="w">                </span>edit<span class="w"> </span><span class="m">1</span>
+<span class="w">                    </span><span class="nb">set</span><span class="w"> </span>upstream-interface<span class="w"> </span><span class="s2">&quot;wan1&quot;</span>
+<span class="w">                    </span><span class="nb">set</span><span class="w"> </span>delegated-prefix-iaid<span class="w"> </span><span class="m">1</span>
+<span class="w">                    </span><span class="nb">set</span><span class="w"> </span>subnet<span class="w"> </span><span class="m">0</span>:0:0:2::/64
+<span class="w">                    </span><span class="nb">set</span><span class="w"> </span>rdnss-service<span class="w"> </span>delegated
+<span class="w">                </span>next
+<span class="w">            </span>end
+<span class="w">        </span>end
+<span class="w">    </span>next
+end
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">この設定により、<cite>wan1</cite> から委任された ::/56 のうち、0:0:0:2::/64 を <cite>internal2</cite> で広告し、</div>
+<div class="line">クライアントは SLAAC によってアドレスと DNS サーバアドレスを取得できるようになります。</div>
+</div>
+</section>
+<section id="b">
+<h3>ポリシー設定(拠点ネットワークB)<a class="headerlink" href="#b" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line"><strong>[ファイアウォールポリシー]</strong> → <strong>[新規作成]</strong> から以下の様にポリシーを作成します。</div>
+</div>
+<a class="reference internal image-reference" href="../_images/13.png"><img alt="../_images/13.png" src="../_images/13.png" style="width: 630.4000000000001px; height: 720.0px;" />
+</a>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>着信インターフェース</strong></p>
+</div></blockquote>
+</td>
+<td><p>internal2</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p><strong>発信インターフェース</strong></p>
+</div></blockquote>
+</td>
+<td><p>wan1</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>送信元</strong></p>
+</div></blockquote>
+</td>
+<td><p>all</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p><strong>宛先</strong></p>
+</div></blockquote>
+</td>
+<td><p>all</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>サービス</strong></p>
+</div></blockquote>
+</td>
+<td><p>ALL</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>※ <strong>送信元</strong> , <strong>宛先</strong>, <strong>サービス</strong> は利用用途に応じて適切に設定してください。</p></li>
+<li><p>セキュリティプロファイルを設定します(省略)</p></li>
+</ul>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line">これで、拠点ネットワークBからWCIポータルを始めとするWCIへの接続が可能となります。</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../ipv6.html" class="btn btn-neutral float-left" title="IPv6を使用する" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Bit-Brain Corporation..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

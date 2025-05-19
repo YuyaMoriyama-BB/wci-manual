@@ -1,0 +1,211 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Webサーバを公開する &mdash; WCI設定事例集  ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=1a210187" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=c033477b"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=4755f45a"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="Webサーバを公開する(NAT,NAPT)" href="webserver.html" />
+    <link rel="prev" title="基本設定" href="../standard.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WCI設定事例集
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">はじめに</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../standard.html">基本設定</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Webサーバを公開する</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">接続構成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wci">WCIポータルの設定</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">サブネットの登録</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">接続</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">フィルタ管理</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="webserver.html">Webサーバを公開する(NAT,NAPT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spg.html">SPGと連携する</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ipv6.html">IPv6を使用する</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WCI設定事例集</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../standard.html">基本設定</a></li>
+      <li class="breadcrumb-item active">Webサーバを公開する</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/standard/simple_webserver.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="web">
+<h1>Webサーバを公開する<a class="headerlink" href="#web" title="Link to this heading"></a></h1>
+<p>本事例は、拠点ネットワークにWCIアドレスを直接的に割り当てる最もシンプルな構成です。
+拠点ネットワーク内に、Webサーバ(443/tcp)を設置しWCIネットワーク(IPv4)に公開します。</p>
+<section id="id1">
+<h2>接続構成<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><strong>接続構成図</strong></p>
+<a class="reference internal image-reference" href="../_images/simple_webserver.png"><img alt="../_images/simple_webserver.png" src="../_images/simple_webserver.png" style="width: 888.0px; height: 278.09999999999997px;" />
+</a>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<ul>
+<li><p>※1,2 導入機種により接続ポートが異なります。詳しくは&quot; <a class="reference internal" href="../preface/init.html"><span class="doc">WCIルータについて</span></a> &quot;の導入機種に応じたポート対応表をご確認下さい。</p></li>
+<li><div class="line-block">
+<div class="line">※3 ご契約拠点により、WCIアドレスおよびサブネットの割当範囲が異なります。別途ご確認下さい。</div>
+<div class="line-block">
+<div class="line">本資料ではWCIアドレス割当範囲を <code class="docutils literal notranslate"><span class="pre">100.65.21.0/26</span></code>、WCIルータのLANポートアドレスを <code class="docutils literal notranslate"><span class="pre">100.65.21.1</span></code> として記載します。</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<hr class="docutils" />
+<section id="wci">
+<h2>WCIポータルの設定<a class="headerlink" href="#wci" title="Link to this heading"></a></h2>
+<p><strong>端末</strong> から <a class="reference external" href="https://portal.bbwci.net">WCI Portal</a> (<cite>https://portal.bbwci.net</cite>)にアクセスしログインします。</p>
+<section id="id2">
+<h3>サブネットの登録<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<a class="reference internal image-reference" href="../_images/14.png"><img alt="../_images/14.png" src="../_images/14.png" style="width: 685.3px; height: 365.4px;" />
+</a>
+<p><strong>[サブネット管理]</strong> より、IPv4アドレス欄の <strong>[登録]</strong> ボタンを押下します。</p>
+<hr class="docutils" />
+<a class="reference internal image-reference" href="../_images/21.png"><img alt="../_images/21.png" src="../_images/21.png" style="width: 467.4px; height: 598.1999999999999px;" />
+</a>
+<ul class="simple">
+<li><p><strong>[サブネット名]</strong> に名称を設定します。 <code class="docutils literal notranslate"><span class="pre">sample_single_subnet</span></code></p></li>
+<li><p><strong>[プレフィックス]</strong> を指定します。プレフィックスは任意のサイズを割り当てることが可能ですが本事例では <code class="docutils literal notranslate"><span class="pre">/26</span></code> を設定します。</p></li>
+<li><p><strong>[ネットワークアドレス]</strong> を指定します。<code class="docutils literal notranslate"><span class="pre">100.65.21.0</span></code> を設定します。</p></li>
+<li><p><strong>[登録]</strong> ボタンを押下します。</p></li>
+</ul>
+<hr class="docutils" />
+<a class="reference internal image-reference" href="../_images/31.png"><img alt="../_images/31.png" src="../_images/31.png" style="width: 727.3px; height: 256.2px;" />
+</a>
+<p>画面に先ほど設定したサブネットが登録されている事を確認します。
+このサブネットが拠点ネットワークのアドレス帯となります。</p>
+</section>
+<hr class="docutils" />
+<section id="id3">
+<h3>接続<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>他拠点との接続については別紙 <cite>WCI Portal 利用手順書</cite> をご確認ください。</p>
+</section>
+<hr class="docutils" />
+<section id="id4">
+<h3>フィルタ管理<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<a class="reference internal image-reference" href="../_images/41.png"><img alt="../_images/41.png" src="../_images/41.png" style="width: 614.4px; height: 498.0px;" />
+</a>
+<p>画面の <strong>[新規]</strong> ボタンを押下します。</p>
+<hr class="docutils" />
+<a class="reference internal image-reference" href="../_images/51.png"><img alt="../_images/51.png" src="../_images/51.png" style="width: 822.6px; height: 353.4px;" />
+</a>
+<p>フィルタ登録画面にて、<strong>[サブネットID]</strong> を押下します。</p>
+<a class="reference internal image-reference" href="../_images/61.png"><img alt="../_images/61.png" src="../_images/61.png" style="width: 669.0px; height: 465.0px;" />
+</a>
+<p>サブネット選択画面にて先ほど登録した <strong>サブネット</strong>  <code class="docutils literal notranslate"><span class="pre">100.65.21.0/26</span></code> の行の <strong>[選択]</strong> を押下します。</p>
+<hr class="docutils" />
+<a class="reference internal image-reference" href="../_images/71.png"><img alt="../_images/71.png" src="../_images/71.png" style="width: 680.4px; height: 566.4px;" />
+</a>
+<p>フィルタ登録画面にて、サブネットが選択されたことを確認します。</p>
+<hr class="docutils" />
+<ul class="simple">
+<li><p>続いて、フィルタリング (インバウンド)にて <strong>[追加]</strong> ボタンを押下します。</p></li>
+<li><p><strong>[プロトコル]</strong> : <code class="docutils literal notranslate"><span class="pre">TCP</span></code> , <strong>[ポート]</strong> : <code class="docutils literal notranslate"><span class="pre">443</span></code> と設定します。</p></li>
+<li><p><strong>[登録]</strong> ボタンを押下します。</p></li>
+</ul>
+<p>これで、接続している他拠点に対して、Webサーバを公開する設定が完了しました。</p>
+<div class="admonition caution">
+<p class="admonition-title">注意</p>
+<div class="line-block">
+<div class="line">本事例の場合、接続構成図の <strong>端末</strong> を含め拠点ネットワーク内の全てのデバイスに対する <code class="docutils literal notranslate"><span class="pre">443/tcp</span></code> も許可する設定となります。</div>
+<div class="line">よりセキュアで柔軟な設定を行う場合は　&quot; <a class="reference internal" href="webserver.html"><span class="doc">Webサーバを公開する(NAT,NAPT)</span></a> &quot;の構成を推奨いたします。</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../standard.html" class="btn btn-neutral float-left" title="基本設定" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="webserver.html" class="btn btn-neutral float-right" title="Webサーバを公開する(NAT,NAPT)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Bit-Brain Corporation..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
