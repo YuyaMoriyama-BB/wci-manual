@@ -6,23 +6,26 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WCIポータルにアクセスする &mdash; WCI設定事例集  ドキュメント</title>
+  <title>1.2. WCI Portalにアクセスする &mdash; WCI設定事例集  ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=1a210187" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d4bf43ca" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
 
   
+    <link rel="shortcut icon" href="../_static/fav.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=c033477b"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../_static/translations.js?v=4755f45a"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
-    <link rel="next" title="基本設定" href="../standard.html" />
-    <link rel="prev" title="WCIルータについて" href="init.html" /> 
+    <link rel="next" title="2. 基本設定" href="../standard/index.html" />
+    <link rel="prev" title="1.1. WCIルータについて" href="init.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,18 +49,19 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../preface.html">はじめに</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="init.html">WCIルータについて</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">WCIポータルにアクセスする</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">1. 端末設定</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id2">2. 物理接続</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">3. WCIポータルにアクセスする</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">1. はじめに</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="init.html">1.1. WCIルータについて</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.2. WCI Portalにアクセスする</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">1.2.1. 端末設定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1.2.2. 物理接続</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wci">1.2.3. WCIポータルにアクセスする</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../standard.html">基本設定</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ipv6.html">IPv6を使用する</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../standard/index.html">2. 基本設定</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advance/index.html">3. 応用設定</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipv6/index.html">3. IPv6</a></li>
 </ul>
 
         </div>
@@ -74,10 +78,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../preface.html">はじめに</a></li>
-      <li class="breadcrumb-item active">WCIポータルにアクセスする</li>
+          <li class="breadcrumb-item"><a href="index.html">1. はじめに</a></li>
+      <li class="breadcrumb-item active">1.2. WCI Portalにアクセスする</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/preface/setup.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -85,19 +88,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="wci">
-<h1>WCIポータルにアクセスする<a class="headerlink" href="#wci" title="Link to this heading"></a></h1>
-<p>本事例では、WCIポータルにアクセスするための最小限の接続構成と設定を行います。</p>
-<a class="reference internal image-reference" href="../_images/setup.png"><img alt="../_images/setup.png" src="../_images/setup.png" style="width: 1128.8px; height: 214.4px;" />
+  <section id="wci-portal">
+<h1>1.2. WCI Portalにアクセスする<a class="headerlink" href="#wci-portal" title="Link to this heading"></a></h1>
+<p>本事例では、WCI Portalにアクセスするための最小限の接続構成と設定を行います。</p>
+<a class="reference internal image-reference" href="../_images/setup.png"><img alt="../_images/setup.png" src="../_images/setup.png" style="width: 1100.8px; height: 211.20000000000002px;" />
 </a>
 <div class="admonition attention">
 <p class="admonition-title">注意</p>
 <ul>
-<li><p>※1,2 導入機種により接続ポートが異なります。詳しくは&quot; <a class="reference internal" href="init.html"><span class="doc">WCIルータについて</span></a> &quot;の導入機種に応じたポート対応表をご確認下さい。</p></li>
+<li><p>※1,2 導入機種により接続ポートが異なります。詳しくは&quot; <a class="reference internal" href="init.html"><span class="doc">1.1. WCIルータについて</span></a> &quot;の導入機種に応じたポート対応表をご確認下さい。</p></li>
 <li><div class="line-block">
 <div class="line">※3 ご契約拠点により、WCIアドレスおよびサブネットの割当範囲が異なります。別途ご確認下さい。</div>
 <div class="line-block">
-<div class="line">本資料ではWCIアドレス割当範囲を <code class="docutils literal notranslate"><span class="pre">100.65.21.0/26</span></code>、WCIルータのLANポートアドレスを <code class="docutils literal notranslate"><span class="pre">100.65.21.1</span></code> として記載します。</div>
+<div class="line">本事例ではWCIアドレス割当範囲を <code class="docutils literal notranslate"><span class="pre">100.65.21.0/26</span></code>、WCIルータのLANポートアドレスを <code class="docutils literal notranslate"><span class="pre">100.65.21.1</span></code> として記載します。</div>
 </div>
 </div>
 </li>
@@ -105,7 +108,7 @@
 </div>
 <hr class="docutils" />
 <section id="id1">
-<h2>1. 端末設定<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>1.2.1. 端末設定<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
 <p><strong>端末</strong> のネットワーク設定を以下の様に設定します。</p>
 <table class="docutils align-default">
 <tbody>
@@ -123,15 +126,21 @@
 </section>
 <hr class="docutils" />
 <section id="id2">
-<h2>2. 物理接続<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>1.2.2. 物理接続<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <p><strong>ONU</strong> --- <strong>WCIルータ</strong> --- <strong>端末</strong> をそれぞれUTPケーブルで接続します。</p>
-<p>それぞれの接続ポートに関しては、&quot; <a class="reference internal" href="init.html"><span class="doc">WCIルータについて</span></a> &quot;の導入機種に応じたポート対応表をご確認ください。</p>
+<p>それぞれの接続ポートに関しては、&quot; <a class="reference internal" href="init.html"><span class="doc">1.1. WCIルータについて</span></a> &quot;の導入機種に応じたポート対応表をご確認ください。</p>
 </section>
 <hr class="docutils" />
-<section id="id3">
-<h2>3. WCIポータルにアクセスする<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
-<p><strong>端末</strong> のブラウザより <a class="reference external" href="https://portal.bbwci.net">WCI Portal</a> (<cite>https://portal.bbwci.net</cite>)へアクセスします。
-ユーザID,パスワードについては別途ご確認ください。</p>
+<section id="wci">
+<h2>1.2.3. WCIポータルにアクセスする<a class="headerlink" href="#wci" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line"><strong>端末</strong> のブラウザより <a class="reference external" href="https://portal.bbwci.net">WCI Portal</a> (<cite>https://portal.bbwci.net</cite>)へアクセスします。</div>
+<div class="line">ログイン方法やポータルの操作については、別紙 <cite>WCI Portal 利用手順書</cite> をご確認ください。</div>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>WCI Portalはインターネット経由ではアクセスはできません。</p>
+</div>
 </section>
 </section>
 
@@ -139,8 +148,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="init.html" class="btn btn-neutral float-left" title="WCIルータについて" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../standard.html" class="btn btn-neutral float-right" title="基本設定" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="init.html" class="btn btn-neutral float-left" title="1.1. WCIルータについて" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../standard/index.html" class="btn btn-neutral float-right" title="2. 基本設定" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

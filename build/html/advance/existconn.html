@@ -1,0 +1,994 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3.2. 既設ネットワークをWCIと接続する &mdash; WCI設定事例集  ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=12948cfa" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/fav.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=c033477b"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=4755f45a"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="3.3. SPGと連携する" href="spg.html" />
+    <link rel="prev" title="3.1. 複数拠点にWebサーバを公開する" href="multi.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WCI設定事例集
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../preface/index.html">1. はじめに</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../standard/index.html">2. 基本設定</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">3. 応用設定</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="multi.html">3.1. 複数拠点にWebサーバを公開する</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.2. 既設ネットワークをWCIと接続する</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">3.2.1. 接続構成とネットワーク</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">3.2.2. セキュリティアプライアンスについて</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wci-portal">3.2.3.WCI-Portalの設定</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">サブネット管理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">接続</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">フィルタ管理</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">3.2.4. セキュリティアプライアンスの設定例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="spg.html">3.3. SPGと連携する</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ipv6/index.html">3. IPv6</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WCI設定事例集</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">3. 応用設定</a></li>
+      <li class="breadcrumb-item active">3.2. 既設ネットワークをWCIと接続する</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="wci">
+<h1>3.2. 既設ネットワークをWCIと接続する<a class="headerlink" href="#wci" title="Link to this heading"></a></h1>
+<div class="line-block">
+<div class="line">既設のネットワークにWCIルータを接続し、NATおよびNAPTを利用してWCIアドレスを拠点内のWebサーバ（443/TCP）に変換することで、</div>
+<div class="line">既設ネットワーク内のサーバをWCIネットワーク上に公開します。</div>
+</div>
+<div class="line-block">
+<div class="line">&quot; <a class="reference internal" href="../standard/webserver.html"><span class="doc">2.2. Webサーバを公開する(NAT,NAPT)</span></a> &quot; では全てのトラフィックをWCIルータに向ける形でしたが、本事例ではWCIネットワーク向けの通信は</div>
+<div class="line">WCIルータにルーティングし、それ以外のトラフィックは既設のルーティングに従う設定とします。</div>
+<div class="line">また、ファイアウォールにてWCIのドメインを含むDNSクエリを受信した際に、WCIのDNSサーバ(WCIルータ)にリダイレクトする様に設定します。</div>
+<div class="line">これにより、既設ネットワークに大きな影響を与えずWCIネットワークに接続することが可能です。</div>
+</div>
+<section id="id1">
+<h2>3.2.1. 接続構成とネットワーク<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><strong>接続構成図</strong></p>
+<a class="reference internal image-reference" href="../_images/conn.png"><img alt="../_images/conn.png" src="../_images/conn.png" style="width: 1057.0px; height: 318.25px;" />
+</a>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<div class="line-block">
+<div class="line">※1,2　導入機種により接続ポートが異なります。詳しくは&quot; <a class="reference internal" href="../preface/init.html"><span class="doc">1.1. WCIルータについて</span></a> &quot;の導入機種に応じたポート対応表をご確認下さい。</div>
+<div class="line">※3  　ご契約拠点により、WCIアドレスおよびサブネットの割当範囲が異なります。別途ご確認下さい。本事例ではWCIアドレス割当範囲を <code class="docutils literal notranslate"><span class="pre">100.65.21.0/26</span></code>、WCIルータのLANポートアドレスを <code class="docutils literal notranslate"><span class="pre">100.65.21.1</span></code> として記載します。</div>
+</div>
+</div>
+<hr class="docutils" />
+<ul class="simple">
+<li><p><strong>既設ネットワーク</strong></p></li>
+</ul>
+<p>このネットワークのみを他拠点に公開対象とし、Webサービスやアプリケーション (本事例では443/TCP) の提供を行います。また、端末からWCI-Portalや他拠点サービスへのアクセスを行えるように設定を行います。</p>
+</section>
+<hr class="docutils" />
+<section id="id2">
+<h2>3.2.2. セキュリティアプライアンスについて<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line">基本的なNAT,NAPT機能を有する多くの機種で問題なくご利用いただける見込みです。</div>
+<div class="line">本事例では、アライドテレシス社のAT-ARX200S-GTX/AT-ARX200S-GT 及びFortinet社のFortiGate(FortiOS 7.2, 7.4)を例として設定方法を紹介します。</div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">重要</p>
+<div class="line-block">
+<div class="line">AT-ARX200S-GTX/AT-ARX200S-GT は、アライドテレシスホールディングス株式会社の登録商標または商標です。</div>
+<div class="line">© Allied Telesis Holdings All rights reserved.</div>
+<div class="line">FortiGate および FortiOS GUI は Fortinet, Inc. の商標・著作物です。</div>
+<div class="line">© Fortinet, Inc. All rights reserved.</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="wci-portal">
+<h2>3.2.3.WCI-Portalの設定<a class="headerlink" href="#wci-portal" title="Link to this heading"></a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<div class="line-block">
+<div class="line">WCI-Portalの詳細な操作方法については別紙 WCI-Portal 利用手順書 をご確認ください。</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><strong>端末</strong> から <a class="reference external" href="https://portal.bbwci.net">WCI-Portal</a> (<cite>https://portal.bbwci.net</cite>)にアクセスしログインします。</div>
+<div class="line">必要に応じて、WCIルータのLANポートに設定用端末を接続してアクセスして下さい。</div>
+</div>
+<section id="id4">
+<h3>サブネット管理<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>以下の様に設定します。</p>
+<a class="reference internal image-reference" href="../_images/n5.png"><img alt="../_images/n5.png" src="../_images/n5.png" style="width: 943.0px; height: 448.0px;" />
+</a>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>項目名</strong></p>
+</div></blockquote>
+</td>
+<td><blockquote>
+<div><p><strong>項目内容</strong></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p><strong>サブネット名</strong></p>
+</div></blockquote>
+</td>
+<td><p>sample_single_subnet</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>プレフィックス</strong></p>
+</div></blockquote>
+</td>
+<td><p>26</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p><strong>ネットワークアドレス</strong></p>
+</div></blockquote>
+</td>
+<td><p>100.65.21.0</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p><strong>サブネット名</strong> は任意の名称を設定できます。</p></li>
+</ul>
+<p>このサブネットは後の手順でNATにより既設ネットワークAのアドレスに対応付けられます。</p>
+</section>
+<hr class="docutils" />
+<section id="id5">
+<h3>接続<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>以下の様に設定します。</p>
+<a class="reference internal image-reference" href="../_images/n6.png"><img alt="../_images/n6.png" src="../_images/n6.png" style="width: 900px;" />
+</a>
+<div class="line-block">
+<div class="line">接続で指定するサブネットは <strong>サブネットの登録</strong> で作成した　<code class="docutils literal notranslate"><span class="pre">sample_single_subnet</span></code> を指定してください。</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="id6">
+<h3>フィルタ管理<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<p>以下の様に設定します。</p>
+<a class="reference internal image-reference" href="../_images/n7.png"><img alt="../_images/n7.png" src="../_images/n7.png" style="width: 900px;" />
+</a>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>項目名</strong></p>
+</div></blockquote>
+</td>
+<td><blockquote>
+<div><p><strong>項目内容</strong></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p><strong>プロトコル</strong></p>
+</div></blockquote>
+</td>
+<td><p>TCP</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p><strong>ポート</strong></p>
+</div></blockquote>
+</td>
+<td><p>443</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id7">
+<h2>3.2.4. セキュリティアプライアンスの設定例<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">AT-ARX200S-GTX/AT-ARX200S-GT 設定手順を表示する</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text"><strong>物理インタフェース構成</strong></p>
+<a class="reference internal image-reference" href="../_images/existconnarx.png"><img alt="../_images/existconnarx.png" src="../_images/existconnarx.png" style="width: 535.1999999999999px; height: 135.6px;" />
+</a>
+<p class="rubric">・アドレス設定</p>
+<p class="sd-card-text">WCIアドレスは以下の様に定義されています。</p>
+<ul class="simple">
+<li><p class="sd-card-text">100.64.0.0 ～ 100.127.255.255 (100.64.0.0/10)</p></li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">重要</p>
+<div class="line-block">
+<div class="line">本設定例に掲載されているコマンドは、設定がまったく行われていない本製品の初期状態から入力することを前提としています。</div>
+<div class="line">そのため、通常は <code class="docutils literal notranslate"><span class="pre">erase</span> <span class="pre">startup-config</span></code> を実行し、スタートアップコンフィグが存在しない状態で起動してから、設定を始めてください。</div>
+<div class="line">また、各コンフィグの詳細については、アライドテレシス社のコマンドリファレンスを参照してください。</div>
+</div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">重要</p>
+<div class="line-block">
+<div class="line">本設定例では、AT-ARX200S-GTX/AT-ARX200S-GT の物理ポートLAN4を既設WAN向けに、物理ポートETH1をWCI向けとして設定しています。</div>
+<div class="line">また、既設WANの上位機器からDHCPでIPアドレス及びDNSサーバの情報を取得することを前提としています。</div>
+<div class="line">既設のネットワーク構成に応じて、適宜設定内容を変更してください。</div>
+</div>
+</div>
+<p class="rubric">・経路設定</p>
+<div class="line-block">
+<div class="line">WCI向けの通信経路をWCIルーターのLAN側インターフェース（ <code class="docutils literal notranslate"><span class="pre">100.65.21.1</span></code> ）に向けて設定し</div>
+<div class="line">デフォルトルートを既設WANの上位機器に向けて設定します。</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ip route 0.0.0.0/0 port1.0.4
+ip route 100.64.0.0/10 100.65.21.1
+</pre></div>
+</div>
+<p class="rubric">・スパニングツリープロトコル（RSTP）無効化</p>
+<div class="line-block">
+<div class="line">LANポートにおいて初期状態で有効化されているスパニングツリープロトコル（RSTP）を無効化します。</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>no spanning-tree rstp enable
+</pre></div>
+</div>
+<p class="rubric">・WAN設定（eth1）</p>
+<div class="line-block">
+<div class="line">WANポート <code class="docutils literal notranslate"><span class="pre">eth1</span></code> にIPアドレスを設定します。</div>
+<div class="line">リミテッドローカルプロキシーARP機能を有効にし、サーバーのWCIアドレス宛てのARP要求に代理応答するよう設定します。</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>interface eth1
+ ip limited-local-proxy-arp
+ ip address 100.65.21.2/26
+</pre></div>
+</div>
+<p class="rubric">・ローカルプロキシーARP設定</p>
+<p class="sd-card-text">WANポートで有効にしたリミテッドローカルプロキシーARP機能の代理応答対象アドレスを指定します。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>local-proxy-arp 100.65.21.0/26
+</pre></div>
+</div>
+<p class="rubric">・WAN設定（port1.0.4）</p>
+<div class="line-block">
+<div class="line">ポート <code class="docutils literal notranslate"><span class="pre">port1.0.4</span></code> にIPアドレスを設定します。no switchport コマンドによりルータポートとして機能します</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>interface port1.0.4
+ no switchport
+ ip address dhcp
+</pre></div>
+</div>
+<p class="rubric">・LAN設定（vlan1）</p>
+<div class="line-block">
+<div class="line">LAN側インターフェース <code class="docutils literal notranslate"><span class="pre">vlan1</span></code> にIPアドレスを設定します。</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>interface vlan1
+ ip address 172.16.1.1/24
+</pre></div>
+</div>
+<p class="rubric">・エンティティー定義</p>
+<div class="line-block">
+<div class="line">ファイアウォールやNATのルール作成時に使うエンティティー（通信主体）を定義します。</div>
+</div>
+<p class="sd-card-text">拠点ネットワークを表すゾーン「private」を作成します。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>zone private
+ network lan
+  ip subnet 172.16.1.0/24
+  host web
+   ip address 172.16.1.100
+</pre></div>
+</div>
+<p class="sd-card-text">外部ネットワークを表すゾーン「public」を作成します。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>zone public
+ network wan2
+  ip subnet 100.64.0.0/10 interface eth1
+  host eth1
+   ip address 100.65.21.2
+ network wan1
+  ip subnet 0.0.0.0/0 interface port1.0.4
+  host port4
+   ip address dynamic interface port1.0.4
+</pre></div>
+</div>
+<p class="sd-card-text">スタティックNAT用のWCIアドレスを表すゾーン「global」を作成します。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>zone global
+ network wci
+  ip subnet 100.65.21.0/26
+</pre></div>
+</div>
+<p class="rubric">・ファイアウォール設定</p>
+<div class="line-block">
+<div class="line">外部からの通信を遮断しつつ、内部からの通信は自由に行えるようにするファイアウォール機能の設定を行います。</div>
+</div>
+<ul class="simple">
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">rule</span> <span class="pre">10</span></code> - WCIアドレス間の通信を許可します</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">rule</span> <span class="pre">20</span></code> - WCIアドレスから外部ネットワークへの通信を許可します</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">rule</span> <span class="pre">30</span></code> - 既設WANの上位機器と本ルータ間の通信を許可します</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">rule</span> <span class="pre">40</span></code> - 拠点ネットワーク内部同士の通信を許可します(任意)</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">rule</span> <span class="pre">50</span></code> - 拠点ネットワークから外部ネットワークへの通信を許可します</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">rule</span> <span class="pre">60</span></code> - 拠点ネットワークからWCIアドレスへの通信を許可します</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">rule</span> <span class="pre">70</span></code> - 他のWCIネットワークから既設ネットワークのWebサーバーへの通信を許可します（後述のNAT設定のrule30とペアで設定します）</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>firewall
+ rule 10 permit any from global to global
+ rule 20 permit any from global to public
+ rule 30 permit any from public.wan1 to public.wan1
+ rule 40 permit any from private.lan to private.lan
+ rule 50 permit any from private.lan to public
+ rule 60 permit any from private.lan to global
+ rule 70 permit https from public.wan2 to private.lan.web
+ protect
+!
+</pre></div>
+</div>
+<p class="rubric">・NAT設定</p>
+<div class="line-block">
+<div class="line">NAT機能の設定を行います。</div>
+</div>
+<ul>
+<li><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">rule</span> <span class="pre">10</span></code> - 既設ネットワーク内部の端末がWCI向けの通信の際にダイナミックENAT機能を使用できるようにします。</div>
+<div class="line">変換後のアドレスとしてWAN側インターフェースの <code class="docutils literal notranslate"><span class="pre">100.65.21.10</span></code> を指定しています。</div>
+</div>
+</li>
+<li><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">rule</span> <span class="pre">20</span></code> - 既設ネットワーク内部の端末が既設WAN向けの通信の際にダイナミックENAT機能を使用できるようにします。</div>
+<div class="line">変換後のアドレスとしてWAN側インターフェースの DHCPアドレスを指定しています。</div>
+</div>
+</li>
+<li><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">rule</span> <span class="pre">30</span></code> - WAN側で受信したWebサーバーのWCIアドレス宛てのHTTPパケットを、宛先をプライベートアドレスに変換して</div>
+<div class="line">既設ネットワークのWebサーバーに転送します</div>
+</div>
+</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>nat
+ rule 10 masq any from private.lan to public.wan2 with src public.wan2.eth1
+ rule 20 masq any from private.lan to public.wan1 with src public.wan1.port4
+ rule 30 portfwd https from public to global.wci.web with dst private.lan.web
+ enable
+</pre></div>
+</div>
+<p class="rubric">・DNSフォワーディング設定</p>
+<div class="line-block">
+<div class="line">DNS機能の設定を行います。拠点ネットワーク内の端末がWCI上のドメインを解決できるように、</div>
+<div class="line">WCIルータのLAN側インターフェースのIPアドレスをDNSサーバーとして指定します。</div>
+<div class="line">WCI上のドメイン は <code class="docutils literal notranslate"><span class="pre">bbwci.net</span></code> で定義されるため、DNSサフィックスとして <code class="docutils literal notranslate"><span class="pre">bbwci.net</span></code> を指定します。</div>
+<div class="line">これにより、<code class="docutils literal notranslate"><span class="pre">bbwci.net</span></code> のドメインを含むDNSクエリはWCIルータに転送され、それ以外のクエリは既設WANの上位機器に転送されます。</div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ip name-server 100.65.21.1 suffix-list wci
+ip domain-lookup
+ip dns forwarding
+ip dns forwarding domain-list wci
+ domain bbwci.net
+</pre></div>
+</div>
+<p class="sd-card-text">以上で設定は完了です。</p>
+<p class="rubric">・コンフィグ全体</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>!
+zone public
+ network wan2
+  ip subnet 100.64.0.0/10 interface eth1
+  host eth1
+   ip address 100.65.21.2
+ network wan1
+  ip subnet 0.0.0.0/0 interface port1.0.4
+  host port4
+   ip address dynamic interface port1.0.4
+!
+zone private
+ network lan
+  ip subnet 172.16.1.0/24
+  host web
+   ip address 172.16.1.100
+!
+zone global
+ network wci
+  ip subnet 100.65.21.0/26
+!
+firewall
+ rule 10 permit any from global to global
+ rule 20 permit any from global to public
+ rule 30 permit any from public.wan1 to public.wan1
+ rule 40 permit any from private.lan to private.lan
+ rule 50 permit any from private.lan to public
+ rule 60 permit any from private.lan to global
+ rule 70 permit https from public to private.lan.web
+ protect
+!
+nat
+ rule 10 masq any from private.lan to public.wan2 with src public.wan2.eth1
+ rule 20 masq any from private.lan to public.wan1 with src public.wan1.port4
+ rule 30 portfwd https from public to global.wci.web with dst private.lan.web
+ enable
+!
+!
+ip name-server 100.65.21.1 suffix-list wci
+ip domain-lookup
+!
+!
+!
+interface port1.0.4
+ no switchport
+ ip address dhcp
+!
+interface eth1
+ ip limited-local-proxy-arp
+ ip address 100.65.21.2/26
+!
+interface vlan1
+ ip address 172.16.1.1/24
+!
+local-proxy-arp 100.65.21.0/26
+!
+ip route 0.0.0.0/0 port1.0.4
+ip route 100.64.0.0/10 100.65.21.1
+!
+ip dns forwarding
+ip dns forwarding domain-list wci
+ domain bbwci.net
+!
+!
+end
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">FortiGate(FortiOS 7.2,7.4) 設定手順を表示する</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="line-block">
+<div class="line">NAT（ネットワークアドレス変換）とNAPT（ネットワークアドレスポート変換）機能を使用して、</div>
+<div class="line">WCIアドレス(IPv4)を拠点ネットワーク内の端末のアドレスへ変換する事で通信を実現します。</div>
+</div>
+<p class="sd-card-text"><strong>物理インタフェース構成</strong></p>
+<a class="reference internal image-reference" href="../_images/connfw.png"><img alt="../_images/connfw.png" src="../_images/connfw.png" style="width: 900px;" />
+</a>
+<p class="rubric">・アドレス設定</p>
+<p class="sd-card-text">WCIアドレスは以下の様に定義されています。</p>
+<ul class="simple">
+<li><p class="sd-card-text">100.64.0.0 ～ 100.127.255.255 (100.64.0.0/10)</p></li>
+</ul>
+<p class="sd-card-text">FortiGateのGUIダッシュボード画面より <strong>[アドレス]</strong> → <strong>[新規作成]</strong> からアドレスを以下の様に編集します。</p>
+<a class="reference internal image-reference" href="../_images/1.png"><img alt="../_images/1.png" src="../_images/1.png" style="width: 800px;" />
+</a>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>項目名</strong></p>
+</div></blockquote>
+</td>
+<td><blockquote>
+<div><p class="sd-card-text"><strong>項目内容</strong></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>IP/ネットマスク</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">100.64.0.0 255.192.0.0</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">・スタティックルート設定</p>
+<p class="sd-card-text"><strong>[スタティックルート]</strong> → <strong>[新規作成]</strong> から新規スタティックルートを以下の様に編集します。</p>
+<a class="reference internal image-reference" href="../_images/2.5.png"><img alt="../_images/2.5.png" src="../_images/2.5.png" style="width: 800px;" />
+</a>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>項目名</strong></p>
+</div></blockquote>
+</td>
+<td><blockquote>
+<div><p class="sd-card-text"><strong>項目内容</strong></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>宛先(サブネット)</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">100.64.0.0 255.192.0.0</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>ゲートウェイアドレス</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">100.65.21.1</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>インタフェース</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">wan2</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">・DNS設定</p>
+<p class="sd-card-text"><strong>[DNSサーバ]→[DNSデータベース]</strong> の <strong>[新規作成]</strong> をします。</p>
+<a class="reference internal image-reference" href="../_images/13.png"><img alt="../_images/13.png" src="../_images/13.png" style="width: 800px;" />
+</a>
+<p class="sd-card-text">以下のように設定します。</p>
+<a class="reference internal image-reference" href="../_images/14.png"><img alt="../_images/14.png" src="../_images/14.png" style="width: 800px;" />
+</a>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>項目名</strong></p>
+</div></blockquote>
+</td>
+<td><blockquote>
+<div><p class="sd-card-text"><strong>項目内容</strong></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>DNSゾーン</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">WCI</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>ドメイン名</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">bbwci.net</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>DNSフォワーダ</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">100.65.21.1</p></td>
+</tr>
+</tbody>
+</table>
+<p class="sd-card-text"><strong>[DNSゾーン]</strong> は任意の名称を設定できます。</p>
+<p class="sd-card-text">続いて、CLI設定より送信元 IP を設定します。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>config<span class="w"> </span>system<span class="w"> </span>dns-database
+<span class="w">   </span>edit<span class="w"> </span><span class="s2">&quot;WCI&quot;</span>
+<span class="w">     </span><span class="nb">set</span><span class="w"> </span>domain<span class="w"> </span><span class="s2">&quot;bbwci.net&quot;</span>
+<span class="w">     </span><span class="nb">set</span><span class="w"> </span>forwarder<span class="w"> </span><span class="s2">&quot;100.65.21.65&quot;</span>
+<span class="w">   </span>next
+end
+</pre></div>
+</div>
+<p class="sd-card-text">続いて、[インターフェース上のDNSサービス]の[新規作成]をします。
+以下の様に設定します。</p>
+<a class="reference internal image-reference" href="../_images/15.png"><img alt="../_images/15.png" src="../_images/15.png" style="width: 800px;" />
+</a>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>項目名</strong></p>
+</div></blockquote>
+</td>
+<td><blockquote>
+<div><p class="sd-card-text"><strong>項目内容</strong></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>インタフェース</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">lan</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>モード</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">再帰的</p></td>
+</tr>
+</tbody>
+</table>
+<p class="sd-card-text">この設定により、lanポートのアドレスがDNSプロキシとして働くようになり
+bbwci.netのドメインを含むDNSクエリがWCIルータに、その他のクエリに関しては既設のプライマリDNSに転送されるようになります。</p>
+<p class="rubric">・WAN設定</p>
+<div class="line-block">
+<div class="line"><strong>[インタフェース]</strong> から任意のインタフェースを選択して編集を行います。</div>
+<div class="line">本事例では物理インタフェース <code class="docutils literal notranslate"><span class="pre">wan2</span></code> にWCIルータを接続する構成とするため、 <code class="docutils literal notranslate"><span class="pre">wan2</span></code> を選択します。</div>
+</div>
+<a class="reference internal image-reference" href="../_images/16.png"><img alt="../_images/16.png" src="../_images/16.png" style="width: 800px;" />
+</a>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>項目名</strong></p>
+</div></blockquote>
+</td>
+<td><blockquote>
+<div><p class="sd-card-text"><strong>項目内容</strong></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>アドレッシングモード</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">マニュアル</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>IP/ネットマスク</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">100.65.21.2/255.255.255.192</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">・LAN設定(既設ネットワーク)</p>
+<div class="line-block">
+<div class="line"><strong>[インタフェース]</strong> から任意のインタフェースを選択して編集を行います。</div>
+<div class="line">本事例では既設ネットワークとして物理インターフェース&quot; lan&quot;を設定しています。</div>
+</div>
+<a class="reference internal image-reference" href="../_images/17.png"><img alt="../_images/17.png" src="../_images/17.png" style="width: 800px;" />
+</a>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>項目名</strong></p>
+</div></blockquote>
+</td>
+<td><blockquote>
+<div><p class="sd-card-text"><strong>項目内容</strong></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>アドレッシングモード</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">マニュアル</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>IP/ネットマスク</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">172.16.1.1/255.255.255.0</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">・NAT設定(既設ネットワーク)</p>
+<div class="line-block">
+<div class="line"><strong>[バーチャルIP]</strong> → <strong>[新規作成]</strong> から仮想IPを以下の様に編集します。</div>
+</div>
+<a class="reference internal image-reference" href="../_images/18.png"><img alt="../_images/18.png" src="../_images/18.png" style="width: 800px;" />
+</a>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>項目名</strong></p>
+</div></blockquote>
+</td>
+<td><blockquote>
+<div><p class="sd-card-text"><strong>項目内容</strong></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>インタフェース</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">wan2</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>タイプ</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">スタティックNAT</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>外部IPアドレス/範囲</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">100.65.21.3</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>IPv4アドレス/範囲</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">172.16.1.100</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p class="sd-card-text"><strong>ポートフォワード</strong> を有効化します。</p></li>
+</ul>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>項目名</strong></p>
+</div></blockquote>
+</td>
+<td><blockquote>
+<div><p class="sd-card-text"><strong>項目内容</strong></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>プロトコル</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">TCP</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>ポートマッピングタイプ</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">1対1</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>外部サービスポート</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">443</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>IPv4ポートへマップ</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">443</p></td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line">続いて、 <strong>[IPプール]</strong> → <strong>[新規作成]</strong> からダイナミックIPプールを以下の様に編集します。</div>
+</div>
+<a class="reference internal image-reference" href="../_images/19.png"><img alt="../_images/19.png" src="../_images/19.png" style="width: 800px;" />
+</a>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>項目名</strong></p>
+</div></blockquote>
+</td>
+<td><blockquote>
+<div><p class="sd-card-text"><strong>項目内容</strong></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>タイプ</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">オーバーロード</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>外部IP範囲</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">100.65.21.3-100.65.32.3</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">・ポリシー設定(既設ネットワーク)</p>
+<div class="line-block">
+<div class="line">in側のポリシーを作成します。</div>
+<div class="line"><strong>[ファイアウォールポリシー]</strong> → <strong>[新規作成]</strong> から以下の様にポリシーを作成します。</div>
+</div>
+<a class="reference internal image-reference" href="../_images/20.png"><img alt="../_images/20.png" src="../_images/20.png" style="width: 800px;" />
+</a>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>項目名</strong></p>
+</div></blockquote>
+</td>
+<td><blockquote>
+<div><p class="sd-card-text"><strong>項目内容</strong></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>着信インタフェース</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">wan2</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>発信インタフェース</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">lan</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>送信元</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">WCI(アドレス設定で作成したもの)</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>宛先</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">VIP_WebServer(NAT設定-バーチャルIPで作成した物)</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>サービス</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">HTTPS</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p class="sd-card-text"><strong>NAT</strong> を有効化します。</p></li>
+</ul>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>IPプール設定</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">ダイナミックIPプールを使う</p></td>
+<td><p class="sd-card-text">WebServer(NAT設定-IPプールで作成した物)</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p class="sd-card-text">適切なセキュリティプロファイルを設定します</p></li>
+</ul>
+<div class="line-block">
+<div class="line">接続を許可した他拠点から&quot;100.65.21.3:443&quot;でWebサーバにアクセスする事が可能となりました。</div>
+<div class="line">(ドメイン名,DNSレコードの追加・編集については、別紙 WCI-Portal 利用手順書 をご確認下さい。)</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<div class="line-block">
+<div class="line">本事例では <code class="docutils literal notranslate"><span class="pre">443/TCP</span></code> を許可する設定ですが許可するプロトコル・ポートを変更することで任意のサービスを公開することが可能です。</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line">続いてout側のポリシーを作成します。</div>
+<div class="line"><strong>[ファイアウォールポリシー]</strong> → <strong>[新規作成]</strong> から以下の様にポリシーを作成します。</div>
+</div>
+<a class="reference internal image-reference" href="../_images/21.png"><img alt="../_images/21.png" src="../_images/21.png" style="width: 800px;" />
+</a>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>項目名</strong></p>
+</div></blockquote>
+</td>
+<td><blockquote>
+<div><p class="sd-card-text"><strong>項目内容</strong></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>着信インタフェース</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">lan</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>発信インタフェース</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">wan2</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>送信元</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">all</p></td>
+</tr>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>宛先</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">WCI(アドレス設定で作成したもの)</p></td>
+</tr>
+<tr class="row-even"><td><blockquote>
+<div><p class="sd-card-text"><strong>サービス</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">HTTPS</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p class="sd-card-text"><strong>送信元 サービス</strong> は利用用途に応じて適切に設定してください。</p></li>
+<li><p class="sd-card-text"><strong>NAT</strong> を有効化します。</p></li>
+</ul>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><blockquote>
+<div><p class="sd-card-text"><strong>IPプール設定</strong></p>
+</div></blockquote>
+</td>
+<td><p class="sd-card-text">発信インタフェースアドレスを使用</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p class="sd-card-text">適切なセキュリティプロファイルを設定します</p></li>
+</ul>
+<p class="sd-card-text">これで、既設ネットワークからWCI-Portalや他接続拠点で公開されているサービスへのアクセスが可能となります。端末からの通信はNAPTにて、ファイアウォールのアドレス 100.65.21.2 に変換されます。</p>
+</div>
+</details></section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="multi.html" class="btn btn-neutral float-left" title="3.1. 複数拠点にWebサーバを公開する" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="spg.html" class="btn btn-neutral float-right" title="3.3. SPGと連携する" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Bit-Brain Corporation..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -13,6 +13,10 @@ author = 'BitBrain'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
+extensions = [
+    "sphinx_design",
+]
+
 templates_path = ['_templates']
 exclude_patterns = []
 
@@ -23,14 +27,22 @@ language = 'ja'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_rtd_theme'
+
+#html_theme_options = {
+#    "style_nav_header_background": "#FFFFFF",
+#}
+
+html_show_sourcelink = False
+
 html_static_path = ['_static']
 
 def setup(app):
     app.add_css_file('custom.css')  # Sphinx >= 1.8
 
 
-#html_logo = '_static/logo.png'
-#html_theme_options = {
-#    'logo_only': False,
-#    'display_version': False,
-#}
+# html_logo = '_static/logo.bmp'
+
+
+html_favicon = "_static/fav.ico"
+
+html_baseurl = "https://YuyaMoriyama-BB.github.io/wci-manual/"

@@ -2,3 +2,25 @@
 .wy-nav-content {
   max-width: none !important;
 }
+
+/* 太字セルの blockquote を平準化する */
+.rst-content table.docutils td blockquote {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+.rst-content table.docutils td blockquote > div {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.rst-content table.docutils td p {
+    margin: 0 !important;
+}
+
+/* コードブロックのフォントサイズを拡大 */
+.rst-content pre,
+.rst-content code {
+    font-size: 1.1em;
+}
